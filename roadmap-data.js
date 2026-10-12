@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:17",
+    "ultimaActualizacion": "2026-10-13T01:18",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -315,7 +315,7 @@ window.ROADMAP = {
       "id": "T004",
       "titulo": "Cámara en tercera persona",
       "version": "v0.1",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/02",
       "incluye": [
         "Cámara detrás del avatar y un poco por encima; se gira con el ratón.",
@@ -328,7 +328,7 @@ window.ROADMAP = {
         "T003"
       ],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:18",
       "fin": "",
       "lineas": {},
       "capturas": []
