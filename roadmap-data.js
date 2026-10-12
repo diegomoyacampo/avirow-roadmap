@@ -216,7 +216,7 @@ window.ROADMAP = {
       "id": "T002",
       "titulo": "Plaza de Nexo provisional",
       "version": "v0.1",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/04, docs/gdd/11",
       "incluye": [
         "Suelo con rejilla de neón, cielo de atardecer, edificios de formas sencillas y límites.",
@@ -229,7 +229,7 @@ window.ROADMAP = {
         "T001"
       ],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:09",
       "fin": "",
       "lineas": {},
       "capturas": []
