@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:05",
+    "ultimaActualizacion": "2026-10-13T01:09",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -161,7 +161,7 @@ window.ROADMAP = {
       "id": "T001",
       "titulo": "Base del proyecto",
       "version": "v0.1",
-      "estado": "en_curso",
+      "estado": "hecha",
       "capitulo": "docs/gdd/12",
       "incluye": [
         "Carpetas apps/cliente, apps/servidor y paquetes/compartido, todo en TypeScript.",
@@ -170,13 +170,47 @@ window.ROADMAP = {
         "Lista de archivos que nunca se suben (datos de jugadores, claves, contraseñas)."
       ],
       "hechoCuando": "npm run dev abre una página con una escena 3D (fondo violeta de noche) y npm test y npm run e2e pasan.",
-      "verificacion": [],
+      "verificacion": [
+        "Vitest: 5 pruebas automáticas pasan (paleta de colores y servidor).",
+        "TypeScript: la comprobación de tipos no da errores en las tres carpetas ni en las pruebas.",
+        "Playwright con Chrome: la escena 3D se dibuja con WebGL y fondo #140a2e, sin errores, en ordenador (1280×720) y en móvil (Pixel 7 táctil).",
+        "Prueba manual: el servidor arranca con npm run start y responde en /salud.",
+        "Placeholder: aro de neón que gira; se sustituye por la plaza de Nexo en T002."
+      ],
       "dependeDe": [],
-      "commits": [],
+      "commits": [
+        {
+          "hash": "cd7df55",
+          "fecha": "2026-10-13T01:05",
+          "mensaje": "T001 en curso"
+        },
+        {
+          "hash": "e04809b",
+          "fecha": "2026-10-13T01:09",
+          "mensaje": "T001 Base del proyecto"
+        }
+      ],
       "inicio": "2026-10-13T01:05",
-      "fin": "",
-      "lineas": {},
-      "capturas": []
+      "fin": "2026-10-13T01:09",
+      "lineas": {
+        "documentacion": 4,
+        "herramientas": 129,
+        "interfaz": 149,
+        "servidor": 44,
+        "pruebas": 100,
+        "reglas": 45
+      },
+      "capturas": [
+        {
+          "src": "evidence/T001-1.png",
+          "texto": "Ordenador: escena 3D con fondo violeta de noche"
+        },
+        {
+          "src": "evidence/T001-2.png",
+          "texto": "Móvil"
+        }
+      ],
+      "minutos": 4
     },
     {
       "id": "T002",
