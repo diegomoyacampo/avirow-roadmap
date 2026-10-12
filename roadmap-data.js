@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:09",
+    "ultimaActualizacion": "2026-10-13T01:13",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -216,7 +216,7 @@ window.ROADMAP = {
       "id": "T002",
       "titulo": "Plaza de Nexo provisional",
       "version": "v0.1",
-      "estado": "en_curso",
+      "estado": "hecha",
       "capitulo": "docs/gdd/04, docs/gdd/11",
       "incluye": [
         "Suelo con rejilla de neón, cielo de atardecer, edificios de formas sencillas y límites.",
@@ -224,15 +224,42 @@ window.ROADMAP = {
         "El plano de la plaza (suelo, paredes, límites) definido en un solo sitio y compartido por el juego y el servidor."
       ],
       "hechoCuando": "La plaza se ve con el estilo neón del capítulo 11 y las pruebas comprueban que el plano tiene suelo, límites y punto de aparición.",
-      "verificacion": [],
+      "verificacion": [
+        "Vitest: 11 pruebas automáticas pasan; 6 nuevas comprueban el plano de Nexo (límites de más de 50 m, aparición libre y dentro, todo dentro de los límites, un portal a cada uno de los otros 4 mundos, huecos de portal libres, bancos y edificios).",
+        "TypeScript: sin errores.",
+        "Playwright con Chrome: Nexo se dibuja con 4 portales, 4 edificios, 8 bancos y el pedestal, sin errores en la página, en ordenador y en móvil. Repetida 3 veces seguidas sin fallos.",
+        "Revisión visual de las capturas: rejilla de neón, cielo de atardecer con sol a franjas, edificios con bordes de neón.",
+        "Placeholder: formas de la plaza, portales apagados y cámara que gira sola (se sustituye en T004)."
+      ],
       "dependeDe": [
         "T001"
       ],
-      "commits": [],
+      "commits": [
+        {
+          "hash": "5604e32",
+          "fecha": "2026-10-13T01:13",
+          "mensaje": "T002 Plaza de Nexo provisional"
+        }
+      ],
       "inicio": "2026-10-13T01:09",
-      "fin": "",
-      "lineas": {},
-      "capturas": []
+      "fin": "2026-10-13T01:13",
+      "lineas": {
+        "interfaz": 480,
+        "documentacion": 2,
+        "pruebas": 77,
+        "reglas": 189
+      },
+      "capturas": [
+        {
+          "src": "evidence/T002-1.png",
+          "texto": "Ordenador: la plaza de Nexo"
+        },
+        {
+          "src": "evidence/T002-2.png",
+          "texto": "Móvil: el sol del atardecer y el portal de Pista Prisma al fondo"
+        }
+      ],
+      "minutos": 4
     },
     {
       "id": "T003",
