@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:28",
+    "ultimaActualizacion": "2026-10-13T01:29",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -417,7 +417,7 @@ window.ROADMAP = {
       "id": "T006",
       "titulo": "Portada e interfaz mínima",
       "version": "v0.1",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/11",
       "incluye": [
         "Portada con el nombre Avirow y botón Entrar (placeholder hasta las cuentas de T015).",
@@ -430,7 +430,7 @@ window.ROADMAP = {
         "T005"
       ],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:29",
       "fin": "",
       "lineas": {},
       "capturas": []
