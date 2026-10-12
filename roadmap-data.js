@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:18",
+    "ultimaActualizacion": "2026-10-13T01:25",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -315,7 +315,7 @@ window.ROADMAP = {
       "id": "T004",
       "titulo": "Cámara en tercera persona",
       "version": "v0.1",
-      "estado": "en_curso",
+      "estado": "hecha",
       "capitulo": "docs/gdd/02",
       "incluye": [
         "Cámara detrás del avatar y un poco por encima; se gira con el ratón.",
@@ -323,15 +323,43 @@ window.ROADMAP = {
         "Si una pared se pone en medio, la cámara se acerca y no la atraviesa."
       ],
       "hechoCuando": "Mover el ratón gira la vista; pegado a una pared, la cámara no se mete dentro.",
-      "verificacion": [],
+      "verificacion": [
+        "Vitest: 37 pruebas automáticas pasan; 11 nuevas (rayos contra cajas y cámara: distancia normal detrás y por encima, se acerca ante una pared y queda por delante, nunca bajo el suelo, ratón a la derecha gira a la derecha, límites de inclinación, se acerca de golpe y se aleja despacio).",
+        "TypeScript: sin errores.",
+        "Playwright con Chrome (ordenador): arrastrar 400 px gira la vista 1 radián y con W el avatar avanza hacia donde mira la cámara (desvío menor de 0,15 rad).",
+        "Playwright: con el avatar pegado al edificio del noreste y la cámara girada hacia la pared, la cámara queda fuera del edificio (z > -22) a menos de 1 m del avatar, que se oculta para no tapar la vista. Repetida 2 veces sin fallos.",
+        "Problema encontrado y resuelto: la tecla Esc simulada por las pruebas no suelta el ratón capturado (la de verdad sí); la prueba lo suelta como el navegador.",
+        "Las pruebas de T001 a T003 siguen pasando."
+      ],
       "dependeDe": [
         "T003"
       ],
-      "commits": [],
+      "commits": [
+        {
+          "hash": "bfee36d",
+          "fecha": "2026-10-13T01:25",
+          "mensaje": "T004 Cámara en tercera persona"
+        }
+      ],
       "inicio": "2026-10-13T01:18",
-      "fin": "",
-      "lineas": {},
-      "capturas": []
+      "fin": "2026-10-13T01:25",
+      "lineas": {
+        "pruebas": 172,
+        "interfaz": 128,
+        "documentacion": 2,
+        "reglas": 66
+      },
+      "capturas": [
+        {
+          "src": "evidence/T004-1.png",
+          "texto": "Vista girada con el ratón: el avatar va hacia donde mira la cámara"
+        },
+        {
+          "src": "evidence/T004-2.png",
+          "texto": "Contra la pared del edificio: la cámara se acerca y oculta el avatar en vez de meterse dentro"
+        }
+      ],
+      "minutos": 7
     },
     {
       "id": "T005",
