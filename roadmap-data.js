@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:39",
+    "ultimaActualizacion": "2026-10-13T01:47",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -473,7 +473,7 @@ window.ROADMAP = {
       "id": "T007",
       "titulo": "Servidor de Nexo",
       "version": "v0.2",
-      "estado": "en_curso",
+      "estado": "hecha",
       "capitulo": "docs/gdd/04, docs/gdd/12",
       "incluye": [
         "Servidor en tiempo real (Colyseus) con la sala de Nexo.",
@@ -481,15 +481,47 @@ window.ROADMAP = {
         "Copias de hasta 50 jugadores: si una se llena, se abre otra."
       ],
       "hechoCuando": "Dos navegadores entran en la misma copia; con el límite bajado a 2 para la prueba, un tercero entra en una copia nueva.",
-      "verificacion": [],
+      "verificacion": [
+        "Vitest con clientes reales de Colyseus contra el servidor (límite bajado a 2 por copia): /salud responde; dos jugadores entran en la misma copia de Nexo con nombres Invitado-NNNN distintos y en el punto de aparición; el tercero entra en una copia nueva; al salir, el jugador desaparece de su copia. Repetidas 3 veces sin fallos.",
+        "Playwright con dos navegadores a la vez: los dos entran en la misma copia (2 jugadores, sesiones y nombres distintos); al salir uno a la portada, el otro queda solo.",
+        "Playwright: con la entrada al servidor cortada, la portada avisa 'No se pudo conectar con el servidor', el botón se puede volver a pulsar y, con el servidor de vuelta, se entra.",
+        "Vitest: 39 pruebas pasan. TypeScript: sin errores. Todas las pruebas en navegador de T001 a T006 siguen pasando (13 de 13).",
+        "Placeholder: nombre de invitado Invitado-NNNN hasta las cuentas (T015). Los demás jugadores aún no se dibujan (llega en T009)."
+      ],
       "dependeDe": [
         "T006"
       ],
-      "commits": [],
+      "commits": [
+        {
+          "hash": "20e5ddb",
+          "fecha": "2026-10-13T01:47",
+          "mensaje": "T007 Servidor de Nexo"
+        }
+      ],
       "inicio": "2026-10-13T01:39",
-      "fin": "",
-      "lineas": {},
-      "capturas": []
+      "fin": "2026-10-13T01:47",
+      "lineas": {
+        "interfaz": 110,
+        "servidor": 118,
+        "pruebas": 122,
+        "documentacion": 2,
+        "reglas": 40
+      },
+      "capturas": [
+        {
+          "src": "evidence/T007-1.png",
+          "texto": "Primer navegador en Nexo, conectado al servidor"
+        },
+        {
+          "src": "evidence/T007-2.png",
+          "texto": "Segundo navegador en la misma copia"
+        },
+        {
+          "src": "evidence/T007-3.png",
+          "texto": "Aviso cuando el servidor no responde"
+        }
+      ],
+      "minutos": 8
     },
     {
       "id": "T008",
