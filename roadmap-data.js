@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:47",
+    "ultimaActualizacion": "2026-10-13T01:48",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -527,7 +527,7 @@ window.ROADMAP = {
       "id": "T008",
       "titulo": "El servidor decide el movimiento",
       "version": "v0.2",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/12, docs/gdd/02",
       "incluye": [
         "El navegador envía las teclas; el servidor mueve al avatar con las mismas reglas compartidas.",
@@ -539,7 +539,7 @@ window.ROADMAP = {
         "T007"
       ],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:48",
       "fin": "",
       "lineas": {},
       "capturas": []
