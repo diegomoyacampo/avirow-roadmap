@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:13",
+    "ultimaActualizacion": "2026-10-13T01:14",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -265,7 +265,7 @@ window.ROADMAP = {
       "id": "T003",
       "titulo": "Avatar provisional y movimiento a pie",
       "version": "v0.1",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/02",
       "incluye": [
         "Figura sencilla como avatar (placeholder hasta T016).",
@@ -279,7 +279,7 @@ window.ROADMAP = {
         "T002"
       ],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:14",
       "fin": "",
       "lineas": {},
       "capturas": []
