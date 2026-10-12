@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:26",
+    "ultimaActualizacion": "2026-10-13T01:28",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -365,7 +365,7 @@ window.ROADMAP = {
       "id": "T005",
       "titulo": "Controles en móvil",
       "version": "v0.1",
-      "estado": "en_curso",
+      "estado": "hecha",
       "capitulo": "docs/gdd/02",
       "incluye": [
         "Joystick virtual a la izquierda (al borde, corre).",
@@ -373,15 +373,45 @@ window.ROADMAP = {
         "Botón de saltar del tamaño del pulgar, sin tapar el centro."
       ],
       "hechoCuando": "En tamaño de móvil con pantalla táctil, el joystick mueve al avatar, arrastrar gira la cámara y el botón hace saltar.",
-      "verificacion": [],
+      "verificacion": [
+        "Playwright con Chrome en tamaño de móvil (Pixel 7, pantalla táctil) con toques reales del navegador:",
+        "Joystick y botón de saltar visibles, de 56 px o más y sin tapar el centro de la pantalla.",
+        "Joystick a medio recorrido: el avatar anda hacia delante (entre 1,8 y 4 m en 1 s); al borde, corre (más de 3,2 m en 0,5 s).",
+        "Con el pulgar en el joystick, un segundo dedo arrastra 100 px por la derecha y la vista gira más de 0,4 rad; al soltar, el avatar se para.",
+        "El botón de saltar eleva al avatar más de 0,5 m.",
+        "En tamaño de ordenador no aparecen los controles táctiles.",
+        "Vitest: 37 pruebas pasan. TypeScript: sin errores. Las pruebas de T001 a T004 siguen pasando.",
+        "Mejora añadida: en pantallas verticales la cámara abre el ángulo (75° en vez de 60°) para no ver solo el avatar."
+      ],
       "dependeDe": [
         "T004"
       ],
-      "commits": [],
+      "commits": [
+        {
+          "hash": "53c51d5",
+          "fecha": "2026-10-13T01:28",
+          "mensaje": "T005 Controles en móvil"
+        }
+      ],
       "inicio": "2026-10-13T01:26",
-      "fin": "",
-      "lineas": {},
-      "capturas": []
+      "fin": "2026-10-13T01:28",
+      "lineas": {
+        "interfaz": 255,
+        "documentacion": 2,
+        "pruebas": 90,
+        "reglas": 2
+      },
+      "capturas": [
+        {
+          "src": "evidence/T005-1.png",
+          "texto": "Móvil: joystick al borde (corriendo) y botón de saltar"
+        },
+        {
+          "src": "evidence/T005-2.png",
+          "texto": "Móvil: saltando tras girar la vista con el dedo"
+        }
+      ],
+      "minutos": 2
     },
     {
       "id": "T006",
