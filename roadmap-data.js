@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:29",
+    "ultimaActualizacion": "2026-10-13T01:39",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -81,13 +81,13 @@ window.ROADMAP = {
       "id": "v0.1",
       "nombre": "Primeros pasos en Nexo",
       "objetivo": "Abrir el juego en el navegador (ordenador o móvil) y pasear con un avatar provisional por la plaza de Nexo.",
-      "estado": "siguiente"
+      "estado": "publicada"
     },
     {
       "id": "v0.2",
       "nombre": "Ya no estás solo",
       "objetivo": "Varios jugadores en Nexo a la vez, viéndose moverse en tiempo real, con su nombre encima y sus gestos.",
-      "estado": "planificada"
+      "estado": "siguiente"
     },
     {
       "id": "v0.3",
@@ -417,7 +417,7 @@ window.ROADMAP = {
       "id": "T006",
       "titulo": "Portada e interfaz mínima",
       "version": "v0.1",
-      "estado": "en_curso",
+      "estado": "hecha",
       "capitulo": "docs/gdd/11",
       "incluye": [
         "Portada con el nombre Avirow y botón Entrar (placeholder hasta las cuentas de T015).",
@@ -425,15 +425,49 @@ window.ROADMAP = {
         "Menú con Esc o botón: Volver al juego y Salir a la portada."
       ],
       "hechoCuando": "Se abre la portada, Entrar lleva a Nexo con su nombre arriba, y Esc abre y cierra el menú.",
-      "verificacion": [],
+      "verificacion": [
+        "Playwright con Chrome (ordenador): la portada enseña Avirow y Entrar, sin barra de juego, y las teclas no mueven al avatar; Entrar lleva a Nexo con su nombre arriba, botón de menú y ayuda de controles; Esc abre el menú y con él abierto el avatar no se mueve; Esc lo cierra; Salir a la portada y volver a entrar funciona.",
+        "Playwright (móvil): los controles táctiles solo salen mientras se juega; botón de menú de 48 px o más; el menú oculta el joystick y Volver al juego lo devuelve; sin ayuda de teclado en móvil.",
+        "Fallo intermitente encontrado y corregido: en máquinas lentas el juego iba a cámara lenta (máximo 0,1 s por imagen). Ahora admite hasta 0,25 s y las pruebas miden con el tiempo de la simulación; todas las pruebas en navegador pasaron 3 veces seguidas (33 de 33).",
+        "Vitest: 37 pruebas pasan. TypeScript: sin errores. Las pruebas de T001 a T005 se adaptaron a la portada y siguen pasando.",
+        "Placeholder: la portada solo tiene Entrar hasta las cuentas (T015)."
+      ],
       "dependeDe": [
         "T005"
       ],
-      "commits": [],
+      "commits": [
+        {
+          "hash": "a392257",
+          "fecha": "2026-10-13T01:39",
+          "mensaje": "T006 Portada e interfaz mínima"
+        }
+      ],
       "inicio": "2026-10-13T01:29",
-      "fin": "",
-      "lineas": {},
-      "capturas": []
+      "fin": "2026-10-13T01:39",
+      "lineas": {
+        "interfaz": 391,
+        "documentacion": 2,
+        "pruebas": 251
+      },
+      "capturas": [
+        {
+          "src": "evidence/T006-1.png",
+          "texto": "Portada"
+        },
+        {
+          "src": "evidence/T006-2.png",
+          "texto": "Jugando: nombre del mundo, botón de menú y ayuda de controles"
+        },
+        {
+          "src": "evidence/T006-3.png",
+          "texto": "Menú abierto con Esc"
+        },
+        {
+          "src": "evidence/T006-4.png",
+          "texto": "Menú en móvil"
+        }
+      ],
+      "minutos": 10
     },
     {
       "id": "T007",
