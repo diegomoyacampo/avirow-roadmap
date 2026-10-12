@@ -473,7 +473,7 @@ window.ROADMAP = {
       "id": "T007",
       "titulo": "Servidor de Nexo",
       "version": "v0.2",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/04, docs/gdd/12",
       "incluye": [
         "Servidor en tiempo real (Colyseus) con la sala de Nexo.",
@@ -486,7 +486,7 @@ window.ROADMAP = {
         "T006"
       ],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:39",
       "fin": "",
       "lineas": {},
       "capturas": []
