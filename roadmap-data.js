@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:14",
+    "ultimaActualizacion": "2026-10-13T01:17",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -265,7 +265,7 @@ window.ROADMAP = {
       "id": "T003",
       "titulo": "Avatar provisional y movimiento a pie",
       "version": "v0.1",
-      "estado": "en_curso",
+      "estado": "hecha",
       "capitulo": "docs/gdd/02",
       "incluye": [
         "Figura sencilla como avatar (placeholder hasta T016).",
@@ -274,15 +274,42 @@ window.ROADMAP = {
         "Las reglas de movimiento en código compartido, con valores en un solo sitio."
       ],
       "hechoCuando": "En el navegador el avatar anda, corre y salta, y no atraviesa paredes ni sale de la plaza.",
-      "verificacion": [],
+      "verificacion": [
+        "Vitest: 26 pruebas automáticas pasan; 15 nuevas del movimiento (andar hacia donde mira la cámara, correr más rápido, diagonal sin ventaja, parar sin patinar, salto de 1,1-1,8 m, sin doble salto, no atraviesa paredes, resbala por ellas, subirse a un banco, no sale de los límites, choca con el pedestal de Nexo, gira hacia donde anda, mismo resultado con las mismas teclas, ignora entradas imposibles).",
+        "TypeScript: sin errores.",
+        "Playwright con Chrome (ordenador): con W anda más de 3 m en 1 s; corriendo con Mayús se para contra el pedestal (z entre 2,35 y 2,5, sin atravesarlo); Espacio salta más de 0,5 m y vuelve al suelo; la flecha izquierda lo mueve a la izquierda. Sin errores en la página.",
+        "Las pruebas de T001 y T002 siguen pasando.",
+        "Placeholder: figura provisional del avatar (hasta T016), balanceo al andar y cámara fija mirando al norte (hasta T004)."
+      ],
       "dependeDe": [
         "T002"
       ],
-      "commits": [],
+      "commits": [
+        {
+          "hash": "abde5bd",
+          "fecha": "2026-10-13T01:17",
+          "mensaje": "T003 Avatar provisional y movimiento a pie"
+        }
+      ],
       "inicio": "2026-10-13T01:14",
-      "fin": "",
-      "lineas": {},
-      "capturas": []
+      "fin": "2026-10-13T01:17",
+      "lineas": {
+        "interfaz": 202,
+        "documentacion": 2,
+        "pruebas": 198,
+        "reglas": 198
+      },
+      "capturas": [
+        {
+          "src": "evidence/T003-1.png",
+          "texto": "Andando hacia el pedestal"
+        },
+        {
+          "src": "evidence/T003-2.png",
+          "texto": "Saltando delante del pedestal"
+        }
+      ],
+      "minutos": 3
     },
     {
       "id": "T004",
