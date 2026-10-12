@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Roadmap</title>
+<!--
+  Web del roadmap.
+  - Este archivo NO se edita al actualizar el progreso: todos los datos están
+    en roadmap-data.js (misma carpeta).
+  - Funciona abriéndolo con doble clic: no usa servidor, ni fetch, ni librerías.
+  - Las capturas se leen de la carpeta evidence/ según las rutas de cada tarea.
+-->
+<style>
+:root{
+  --bg:#fbf4ff; --sky1:#fff8fd; --sky2:#ffe1f1;
+  --panel:#ffffff; --panel2:#f7effd;
+  --ink:#24123f; --muted:#665682; --line:#e3d4f2;
+  --mag:#c0157a; --cyan:#00798a; --amber:#9a5300; --violet:#5b2bb5; --green:#2f7d32;
+  --grid:rgba(192,21,122,.28); --seg-off:rgba(36,18,63,.10);
+  --ok-bg:#dcf2f4; --run-bg:#fde0ef; --block-bg:#ffefd6; --pend-bg:#efe7f8;
+  --glow:none; --title-shadow:3px 3px 0 #ffc4e5;
+  --f-display:"Bahnschrift Condensed","Bahnschrift","DIN Condensed","Avenir Next Condensed","Roboto Condensed","Arial Narrow","DejaVu Sans Condensed",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#140a2e; --sky1:#0c0522; --sky2:#2c0f52;
+    --panel:#1c1140; --panel2:#24174f;
+    --ink:#f2ebff; --muted:#aa9dcb; --line:#35255f;
+    --mag:#ff52b0; --cyan:#41e5ea; --amber:#ffbd3d; --violet:#a58bff; --green:#7be38a;
+    --grid:rgba(255,82,176,.42); --seg-off:rgba(242,235,255,.10);
+    --ok-bg:rgba(65,229,234,.13); --run-bg:rgba(255,82,176,.17); --block-bg:rgba(255,189,61,.14); --pend-bg:rgba(242,235,255,.07);
+    --glow:drop-shadow(0 0 6px rgba(65,229,234,.55));
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;z-index:20;background:var(--panel);padding:8px 12px;border-radius:6px}
+.skip:focus{top:12px}
+.mono,.tid,code{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* ---------- Aviso de datos de ejemplo ---------- */
+.demo-banner{background:#ffbd3d;color:#1b0f00;font-weight:600}
+.demo-banner .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-top:8px;padding-bottom:8px;flex-wrap:wrap}
+.demo-banner button{background:#1b0f00;color:#fff;border:0;border-radius:999px;padding:4px 14px;font-weight:600}
+
+/* ---------- Cabecera: marquesina con rejilla ---------- */
+.marquee{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sky1),var(--sky2));border-bottom:2px solid var(--mag)}
+.marquee::after{content:"";position:absolute;left:-60%;right:-60%;bottom:0;height:150%;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:56px 34px;background-position:center bottom;
+  transform:perspective(240px) rotateX(64deg);transform-origin:center bottom;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 70%);mask-image:linear-gradient(to top,#000 0%,transparent 70%)}
+.marquee .wrap{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;padding-top:26px;padding-bottom:22px}
+.titleblock{min-width:0;flex:1 1 380px}
+h1{margin:0;font-family:var(--f-display);font-stretch:condensed;font-weight:700;font-size:clamp(2.1rem,6.2vw,3.7rem);line-height:.95;letter-spacing:.005em;color:var(--ink);text-shadow:var(--title-shadow);overflow-wrap:anywhere}
+@media (prefers-color-scheme: dark){
+  h1{background:linear-gradient(180deg,#ffffff 0%,#c8f6ff 40%,#5b2fa8 50%,#ff92d2 60%,#fff2fb 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 14px rgba(255,82,176,.45))}
+}
+.p-desc{margin:8px 0 0;color:var(--muted);max-width:60ch}
+.updated{margin:10px 0 0;font-size:.92rem;color:var(--muted)}
+.updated time{color:var(--ink);font-weight:600}
+.score{flex:0 1 330px;min-width:240px}
+.score-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.score-num{font-family:var(--f-display);font-stretch:condensed;font-weight:700;font-size:clamp(2.6rem,7vw,3.6rem);line-height:1;color:var(--cyan);filter:var(--glow);font-variant-numeric:tabular-nums}
+.score-num small{font-size:.5em;margin-left:2px}
+.score-sub{margin:0;color:var(--muted);font-size:.92rem;text-align:right}
+.score-sub b{color:var(--ink)}
+
+/* Barra segmentada estilo recreativa */
+.meter{position:relative;display:block;height:10px;background:repeating-linear-gradient(90deg,var(--seg-off) 0 8px,transparent 8px 11px)}
+.meter>span{position:absolute;left:0;top:0;bottom:0;width:var(--p,0%);background:repeating-linear-gradient(90deg,var(--cyan) 0 8px,transparent 8px 11px);filter:var(--glow)}
+.meter.big{height:18px;margin-top:10px;background:repeating-linear-gradient(90deg,var(--seg-off) 0 12px,transparent 12px 16px)}
+.meter.big>span{background:repeating-linear-gradient(90deg,var(--cyan) 0 12px,transparent 12px 16px);transition:width 1.1s steps(24,end)}
+.meter.sm{height:8px;background:repeating-linear-gradient(90deg,var(--seg-off) 0 6px,transparent 6px 8px)}
+.meter.sm>span{background:repeating-linear-gradient(90deg,var(--cyan) 0 6px,transparent 6px 8px)}
+.next .meter>span{background:repeating-linear-gradient(90deg,var(--mag) 0 8px,transparent 8px 11px);filter:none}
+
+/* ---------- Bloques de arriba ---------- */
+main.wrap{padding-top:22px;padding-bottom:60px}
+.top{display:grid;grid-template-columns:1fr;gap:18px}
+@media (min-width:780px){.top{grid-template-columns:1fr 1.15fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px 18px 18px;min-width:0}
+.panel h2{margin:0 0 10px;font-family:var(--f-display);font-stretch:condensed;font-weight:700;font-size:1.45rem;line-height:1.1}
+.now{border-left:5px solid var(--mag)}
+.now h2{color:var(--mag)}
+.next{border-top:5px solid var(--cyan)}
+.next h2{color:var(--cyan)}
+
+.tbtn{display:block;width:100%;text-align:left;background:none;border:0;padding:0}
+.now-item{display:grid;grid-template-columns:14px 1fr;gap:4px 10px;padding:10px 10px;margin:0 -10px;border-radius:6px}
+.now-item:hover{background:var(--panel2)}
+.now-item+.now-item{margin-top:2px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--mag);margin-top:.45em;box-shadow:0 0 0 0 rgba(255,82,176,.6)}
+@media (prefers-reduced-motion:no-preference){.dot{animation:pulse 1.8s ease-out infinite}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,82,176,.55)}80%,100%{box-shadow:0 0 0 10px rgba(255,82,176,0)}}
+.now-title{font-size:1.18rem;font-weight:650;line-height:1.3}
+.now-title .tid{font-size:.9rem;font-weight:600;color:var(--mag);margin-right:8px}
+.now-meta{grid-column:2;color:var(--muted);font-size:.9rem}
+.after{margin:12px 0 0;padding-top:12px;border-top:1px dashed var(--line);color:var(--muted);font-size:.95rem}
+.after .tbtn{display:inline;width:auto;color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.after .tbtn:hover{text-decoration-color:var(--cyan)}
+.after .tid{font-weight:600;margin-right:6px}
+.quiet{color:var(--muted);margin:4px 0 0}
+
+.nv-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.nv-id{font-family:var(--f-display);font-stretch:condensed;font-weight:700;font-size:2.1rem;line-height:1;color:var(--ink)}
+.nv-name{font-weight:650;font-size:1.12rem}
+.nv-goal{margin:6px 0 0;color:var(--muted);max-width:62ch}
+.nv-prog{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;margin:14px 0 4px}
+.nv-pct{font-family:var(--f-display);font-stretch:condensed;font-weight:700;font-size:1.6rem;color:var(--mag);font-variant-numeric:tabular-nums;line-height:1}
+.nv-count{color:var(--muted);font-size:.9rem;white-space:nowrap}
+.nv-left{margin:12px 0 4px;font-size:.92rem;color:var(--muted)}
+.mini{list-style:none;margin:0;padding:0}
+.mini li+li{border-top:1px solid var(--line)}
+.mini .tbtn{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:7px 4px}
+.mini .tbtn:hover{background:var(--panel2)}
+.mini .tid{color:var(--muted);font-size:.85rem}
+.mini .ttl{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.more{margin:8px 0 0}
+.linkbtn{background:none;border:0;padding:0;color:var(--cyan);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+
+/* Etiquetas de estado */
+.chip{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:650;line-height:1.5}
+.s-hecha{background:var(--ok-bg);color:var(--cyan)}
+.s-en_curso{background:var(--run-bg);color:var(--mag)}
+.s-pendiente{background:var(--pend-bg);color:var(--muted)}
+.s-bloqueada{background:var(--block-bg);color:var(--amber)}
+.chip svg{width:11px;height:11px;flex:none}
+
+/* ---------- Barra de filtros ---------- */
+.list-head{margin-top:34px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+.list-head h2{margin:0;margin-right:auto;font-family:var(--f-display);font-stretch:condensed;font-weight:700;font-size:1.6rem}
+.filters{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel)}
+.filters button{border:0;background:none;padding:7px 12px;font-size:.92rem;color:var(--muted);border-right:1px solid var(--line)}
+.filters button:last-child{border-right:0}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:650}
+.filters button .n{font-family:var(--f-mono);font-size:.8rem;margin-left:5px;opacity:.8}
+.search{position:relative;flex:1 1 230px;max-width:340px}
+.search input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+.search input::placeholder{color:var(--muted)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted);pointer-events:none}
+.kbd{font-family:var(--f-mono);font-size:.75rem;border:1px solid var(--line);border-radius:4px;padding:0 5px;color:var(--muted)}
+
+/* ---------- Pista de versiones ---------- */
+.vlist{list-style:none;margin:18px 0 0;padding:0;position:relative}
+.vlist::before{content:"";position:absolute;left:11px;top:14px;bottom:14px;width:2px;background:var(--line)}
+.vitem{position:relative;padding-left:38px}
+.vitem+.vitem{margin-top:10px}
+.vnode{position:absolute;left:4px;top:17px;width:16px;height:16px;transform:rotate(45deg);border:2px solid var(--muted);background:var(--bg)}
+.v-publicada .vnode{background:var(--cyan);border-color:var(--cyan)}
+.v-siguiente .vnode{background:var(--mag);border-color:var(--mag);box-shadow:0 0 0 4px var(--run-bg)}
+.vitem details{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.v-siguiente details{border-color:var(--mag)}
+.vitem summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:12px 14px}
+.vitem summary::-webkit-details-marker{display:none}
+.vid{font-family:var(--f-display);font-stretch:condensed;font-weight:700;font-size:1.35rem;line-height:1;min-width:3.2ch}
+.vname{min-width:0;font-weight:650}
+.vgoal{display:block;font-weight:400;color:var(--muted);font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vside{display:flex;align-items:center;gap:12px}
+.vstate{font-size:.82rem;color:var(--muted)}
+.v-siguiente .vstate{color:var(--mag);font-weight:650}
+.v-publicada .vstate{color:var(--cyan);font-weight:650}
+.vprog{display:grid;grid-template-columns:3.2ch 90px auto;align-items:center;gap:8px}
+.vpct{font-family:var(--f-mono);font-size:.9rem;text-align:right}
+.vcount{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.chev{width:16px;height:16px;color:var(--muted);transition:transform .15s}
+details[open] .chev{transform:rotate(90deg)}
+@media (max-width:640px){
+  .vitem summary{grid-template-columns:auto minmax(0,1fr)}
+  .vside{grid-column:1 / -1;justify-content:space-between}
+  .vgoal{white-space:normal}
+}
+.tlist{list-style:none;margin:0;padding:0 6px 6px;border-top:1px solid var(--line)}
+.tlist li+li{border-top:1px solid var(--line)}
+.trow{display:grid;grid-template-columns:4.6ch minmax(0,1fr) auto;gap:4px 12px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:9px 8px;border-radius:4px}
+.trow:hover{background:var(--panel2)}
+.trow .tid{color:var(--muted);font-size:.86rem}
+.trow .ttl{min-width:0}
+.trow.is-hecha .ttl{color:var(--muted)}
+@media (max-width:520px){.trow{grid-template-columns:4.6ch minmax(0,1fr)}.trow .chip{grid-column:2;justify-self:start}}
+.tlist .empty{padding:12px 8px;color:var(--muted)}
+.noresult{padding:28px 0;color:var(--muted)}
+
+/* ---------- Estado vacío / error ---------- */
+.blank{background:var(--panel);border:1px dashed var(--mag);border-radius:6px;padding:28px 24px;max-width:640px}
+.blank h2{margin:0 0 8px;font-family:var(--f-display);font-stretch:condensed;font-size:1.7rem}
+.blank p{margin:0 0 14px;color:var(--muted)}
+.btn{display:inline-block;border:2px solid var(--mag);background:none;color:var(--mag);font-weight:700;border-radius:6px;padding:8px 16px}
+.btn:hover{background:var(--mag);color:var(--bg)}
+
+/* ---------- Ficha de tarea ---------- */
+dialog{padding:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);width:min(900px,calc(100vw - 24px));max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px)}
+dialog::backdrop{background:rgba(12,4,32,.62)}
+@media (prefers-reduced-motion:no-preference){dialog[open]{animation:pop .16s ease-out}}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.f-wrap{position:relative;display:flex;flex-direction:column;max-height:inherit}
+.f-close{position:absolute;right:10px;top:10px;z-index:2;width:38px;height:38px;border-radius:6px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center}
+.f-close:hover{border-color:var(--mag);color:var(--mag)}
+.f-close svg{width:16px;height:16px}
+.f-scroll{overflow:auto;overscroll-behavior:contain}
+.f-head{padding:20px 64px 16px 22px;border-bottom:2px solid var(--mag);background:linear-gradient(180deg,var(--sky1),var(--panel))}
+.f-id{margin:0;font-family:var(--f-mono);color:var(--mag);font-weight:700}
+.f-head h2{margin:2px 0 10px;font-family:var(--f-display);font-stretch:condensed;font-size:clamp(1.6rem,4vw,2.2rem);line-height:1.05}
+.f-tags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tag{border:1px solid var(--line);border-radius:999px;padding:1px 10px;font-size:.82rem;color:var(--muted)}
+.f-body{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:760px){.f-body{grid-template-columns:1.35fr 1fr}.f-main{border-right:1px solid var(--line)}}
+.f-main,.f-side{min-width:0;display:flex;flex-direction:column}
+.f-main>.f-sec:last-child,.f-side>.f-sec:last-child{flex:1}
+.f-sec{padding:16px 22px;border-bottom:1px solid var(--line)}
+.f-sec h3{margin:0 0 6px;font-size:.95rem;font-weight:700;color:var(--muted)}
+.f-sec p{margin:0}
+.f-sec ul{margin:0;padding-left:1.15em}
+.f-sec li+li{margin-top:3px}
+.f-full{grid-column:1 / -1}
+.f-empty{color:var(--muted);font-style:italic}
+.f-block{margin-top:10px!important;padding:8px 10px;border-radius:6px;background:var(--block-bg);color:var(--amber);font-weight:600}
+.deps{display:flex;flex-direction:column;gap:6px}
+.dep{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;width:100%;border:1px solid var(--line);background:none;border-radius:6px;padding:6px 8px}
+.dep:hover{border-color:var(--cyan)}
+.dep .tid{font-size:.85rem;color:var(--muted)}
+.dep.missing{grid-template-columns:auto 1fr;color:var(--amber);cursor:default}
+.dates{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0}
+.dates dt{color:var(--muted)}
+.dates dd{margin:0;font-weight:600}
+.lines{display:flex;flex-direction:column;gap:7px}
+.lrow{display:grid;grid-template-columns:minmax(70px,auto) 1fr auto;gap:10px;align-items:center;font-size:.92rem}
+.lbar{height:10px;background:var(--seg-off);border-radius:2px;overflow:hidden}
+.lbar span{display:block;height:100%}
+.lnum{font-family:var(--f-mono);font-size:.85rem;text-align:right;min-width:5ch}
+.ltotal{margin-top:8px!important;color:var(--muted);font-size:.88rem}
+.commits{list-style:none;padding:0!important;margin:0}
+.commits li{display:grid;grid-template-columns:auto auto 1fr;gap:4px 12px;align-items:baseline;padding:6px 0}
+.commits li+li{border-top:1px solid var(--line);margin-top:0!important}
+.commits code{color:var(--cyan);font-size:.88rem}
+.commits a{color:inherit}
+.commits .cdate{color:var(--muted);font-size:.85rem;white-space:nowrap}
+@media (max-width:520px){.commits li{grid-template-columns:auto 1fr}.commits .cmsg{grid-column:1 / -1}}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shot{display:block;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel2);text-decoration:none;color:var(--muted)}
+.shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.shot span{display:block;padding:5px 8px;font-size:.82rem}
+.shot.missing{padding:14px 10px;font-size:.85rem;border-style:dashed;overflow-wrap:anywhere}
+@media (max-width:600px){
+  dialog{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;border:0}
+  .f-wrap{height:100%}
+  .marquee .wrap{padding-top:18px;padding-bottom:16px}
+  .score{flex-basis:100%}
+  .panel{padding:14px 14px 16px}
+  .p-desc{display:none}
+  .updated{margin-top:6px;font-size:.85rem}
+  .demo-banner{font-size:.88rem}
+  .demo-banner .wrap{padding-top:6px;padding-bottom:6px;flex-wrap:nowrap}
+  .demo-banner button{padding:3px 10px;white-space:nowrap}
+  .now-title{font-size:1.08rem}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#lista">Saltar a la lista de versiones</a>
+<div class="demo-banner" id="demo-banner" hidden>
+  <div class="wrap"><span>Estás viendo datos de ejemplo. No son de tu proyecto.</span><button type="button" id="demo-exit">Volver a mis datos</button></div>
+</div>
+
+<header class="marquee">
+  <div class="wrap">
+    <div class="titleblock">
+      <h1 id="p-nombre">Roadmap</h1>
+      <p class="p-desc" id="p-desc" hidden></p>
+      <p class="updated" id="p-upd" hidden>Última actualización: <time id="p-fecha"></time> <span id="p-hace"></span></p>
+    </div>
+    <div class="score" id="score">
+      <div class="score-top">
+        <div class="score-num" aria-hidden="true"><span id="g-pct">0</span><small>%</small></div>
+        <p class="score-sub" id="g-sub"></p>
+      </div>
+      <div class="meter big" id="g-meter" role="progressbar" aria-label="Progreso global" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <div class="top" id="top">
+    <section class="panel now" aria-labelledby="h-now"><h2 id="h-now">Ahora</h2><div id="now"></div></section>
+    <section class="panel next" aria-labelledby="h-next"><h2 id="h-next">Próxima actualización</h2><div id="next"></div></section>
+  </div>
+
+  <section id="lista" aria-labelledby="h-list">
+    <div class="list-head">
+      <h2 id="h-list">Versiones</h2>
+      <div class="filters" role="group" aria-label="Filtrar tareas por estado" id="filters"></div>
+      <label class="search">
+        <span class="sr">Buscar tareas</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" id="q" placeholder="Buscar: título, T012, capítulo…" autocomplete="off">
+      </label>
+    </div>
+    <p class="sr" id="count" aria-live="polite"></p>
+    <ol class="vlist" id="vlist"></ol>
+  </section>
+</main>
+
+<dialog id="ficha" aria-labelledby="f-title">
+  <div class="f-wrap">
+    <button type="button" class="f-close" id="f-close" aria-label="Cerrar ficha (Esc)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
+    </button>
+    <div class="f-scroll" id="f-content"></div>
+  </div>
+</dialog>
+
+<script>
+  // Detecta si roadmap-data.js falta o tiene un error de escritura.
+  window.__roadmapError = null;
+  window.addEventListener('error', function (e) {
+    if (window.ROADMAP) return;
+    var m = e.message && e.message.indexOf('Script error') < 0 ? e.message : '';
+    window.__roadmapError = m ? m + (e.lineno ? ' (línea ' + e.lineno + ')' : '') : null;
+  });
+</script>
+<script src="roadmap-data.js" onerror="window.__roadmapMissing = true"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     Datos de ejemplo: solo se usan si pulsas "Ver con datos de
+     ejemplo". Son inventados y no forman parte de tu proyecto.
+     ========================================================= */
+  var shot = function (txt, a, b) {
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs><rect width="320" height="200" fill="url(#g)"/><g stroke="#ff52b0" stroke-opacity=".5">' +
+      [120, 135, 152, 172, 196].map(function (y) { return '<line x1="0" y1="' + y + '" x2="320" y2="' + y + '"/>'; }).join('') +
+      [-200, -100, 0, 100, 200, 300, 400, 500].map(function (x) { return '<line x1="160" y1="110" x2="' + x + '" y2="200"/>'; }).join('') +
+      '</g><text x="160" y="70" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#fff">' + txt + '</text><text x="160" y="94" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#fff" fill-opacity=".75">captura de ejemplo</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  };
+  var DEMO = {
+    proyecto: {
+      nombre: 'Proyecto de ejemplo',
+      descripcion: 'Datos inventados para ver cómo queda la web antes de cargar los tuyos.',
+      ultimaActualizacion: '2026-10-12T20:15',
+      disciplinas: { pruebas: 'Pruebas', interfaz: 'Interfaz', contenido: 'Contenido', servidor: 'Servidor' }
+    },
+    versiones: [
+      { id: 'v0.1', nombre: 'Primer paso jugable', objetivo: 'Entrar al mundo, moverse y que la partida se guarde.', estado: 'publicada' },
+      { id: 'v0.2', nombre: 'Mundo central', objetivo: 'Un punto de encuentro desde el que se viaja a otras zonas.', estado: 'publicada' },
+      { id: 'v0.3', nombre: 'Primera misión', objetivo: 'Una misión completa de principio a fin, con recompensa.', estado: 'siguiente' },
+      { id: 'v0.4', nombre: 'Tienda y monedas', objetivo: 'Ganar monedas y gastarlas en objetos para el avatar.', estado: 'planificada' }
+    ],
+    tareas: [
+      { id: 'T001', titulo: 'Mapa de prueba', version: 'v0.1', estado: 'hecha', capitulo: 'docs/gdd/03',
+        incluye: ['Terreno plano con límites', 'Punto de aparición', 'Iluminación básica (placeholder)'],
+        hechoCuando: 'Un jugador aparece en el mapa y no puede salirse de los límites.',
+        verificacion: ['12 pruebas automáticas pasan', 'Prueba manual: 3 intentos de salir del mapa, ninguno lo consigue'],
+        commits: [{ hash: 'a41c9e2', fecha: '2026-09-28T10:12', mensaje: 'T001 mapa de prueba con límites' }],
+        inicio: '2026-09-28T09:40', fin: '2026-09-28T10:15', minutos: 35,
+        lineas: { pruebas: 120, contenido: 340, servidor: 60 }, capturas: [shot('T001 · mapa', '#2c0f52', '#140a2e')] },
+      { id: 'T002', titulo: 'Movimiento y cámara', version: 'v0.1', estado: 'hecha', capitulo: 'docs/gdd/02', dependeDe: ['T001'],
+        incluye: ['Andar, correr y saltar', 'Cámara en tercera persona', 'Controles táctiles en móvil'],
+        hechoCuando: 'Se puede recorrer el mapa con teclado y con el móvil sin atascarse.',
+        verificacion: ['31 pruebas automáticas pasan', 'Probado en ordenador y en móvil simulado'],
+        commits: [{ hash: '9b07d11', fecha: '2026-09-28T13:02', mensaje: 'T002 movimiento básico' }, { hash: 'c3e2f80', fecha: '2026-09-28T14:20', mensaje: 'T002 controles táctiles' }],
+        inicio: '2026-09-28T11:00', fin: '2026-09-28T14:25', minutos: 205,
+        lineas: { pruebas: 260, interfaz: 410, servidor: 35 }, capturas: [shot('T002 · cámara', '#3a1166', '#1c1140'), shot('T002 · móvil', '#25104a', '#0c0522')] },
+      { id: 'T003', titulo: 'Guardado de progreso', version: 'v0.1', estado: 'hecha', capitulo: 'docs/gdd/07', dependeDe: ['T001'],
+        incluye: ['Guardar posición y nivel al salir', 'Recuperarlos al volver'],
+        hechoCuando: 'Al salir y volver a entrar, el jugador conserva su nivel.',
+        verificacion: ['18 pruebas automáticas pasan', 'Salir y entrar 5 veces: los datos se conservan'],
+        commits: [{ hash: 'e8812ab', fecha: '2026-09-29T11:47', mensaje: 'T003 guardado de datos del jugador' }],
+        inicio: '2026-09-29T10:05', fin: '2026-09-29T11:50', minutos: 105,
+        lineas: { pruebas: 300, servidor: 520 } },
+      { id: 'T004', titulo: 'Plaza central', version: 'v0.2', estado: 'hecha', capitulo: 'docs/gdd/04', dependeDe: ['T001'],
+        incluye: ['Plaza con edificios placeholder', 'Zona de aparición común'],
+        hechoCuando: 'Todos los jugadores aparecen en la plaza al entrar.',
+        verificacion: ['9 pruebas automáticas pasan'],
+        commits: [{ hash: '1f4d6c0', fecha: '2026-10-02T17:30', mensaje: 'T004 plaza central' }],
+        inicio: '2026-10-02T16:10', fin: '2026-10-02T17:35', minutos: 85,
+        lineas: { pruebas: 80, contenido: 690 }, capturas: [shot('T004 · plaza', '#4a1460', '#140a2e')] },
+      { id: 'T005', titulo: 'Portales a otras zonas', version: 'v0.2', estado: 'hecha', capitulo: 'docs/gdd/04', dependeDe: ['T004'],
+        incluye: ['3 portales en la plaza', 'Viaje entre zonas sin perder el inventario'],
+        hechoCuando: 'Se viaja de la plaza a cada zona y se vuelve con el mismo inventario.',
+        verificacion: ['22 pruebas automáticas pasan', 'Prueba con 2 jugadores a la vez: correcta'],
+        commits: [{ hash: '7aa3e19', fecha: '2026-10-03T12:10', mensaje: 'T005 portales entre zonas' }],
+        inicio: '2026-10-03T09:30', fin: '2026-10-03T12:15', minutos: 165,
+        lineas: { pruebas: 190, interfaz: 70, servidor: 380 } },
+      { id: 'T006', titulo: 'Chat y lista de jugadores', version: 'v0.2', estado: 'hecha', capitulo: 'docs/gdd/09',
+        incluye: ['Lista de jugadores conectados', 'Mensajes rápidos predefinidos'],
+        hechoCuando: 'Se ve quién está conectado y se pueden mandar mensajes rápidos.',
+        verificacion: ['14 pruebas automáticas pasan'],
+        commits: [{ hash: '0d5b2f7', fecha: '2026-10-04T10:44', mensaje: 'T006 lista de jugadores y mensajes rápidos' }],
+        inicio: '2026-10-04T09:50', fin: '2026-10-04T10:45', minutos: 55,
+        lineas: { pruebas: 95, interfaz: 310 } },
+      { id: 'T007', titulo: 'Diario de misiones', version: 'v0.3', estado: 'hecha', capitulo: 'docs/gdd/05', dependeDe: ['T003'],
+        incluye: ['Pantalla con misiones activas y completadas', 'Se guarda entre partidas'],
+        hechoCuando: 'El diario muestra la misión activa y sigue ahí al volver a entrar.',
+        verificacion: ['248 pruebas automáticas pasan (todas las del proyecto)', 'Prueba manual en móvil: el diario se lee bien'],
+        commits: [{ hash: 'b62e0d4', fecha: '2026-10-11T18:05', mensaje: 'T007 diario de misiones' }, { hash: 'f19ac33', fecha: '2026-10-11T18:40', mensaje: 'T007 ajustes de interfaz en móvil' }],
+        inicio: '2026-10-11T16:30', fin: '2026-10-11T18:45', minutos: 135,
+        lineas: { pruebas: 210, interfaz: 460, servidor: 140 }, capturas: [shot('T007 · diario', '#2c0f52', '#3a1166')] },
+      { id: 'T008', titulo: 'Pistas repartidas por el mapa', version: 'v0.3', estado: 'en_curso', capitulo: 'docs/gdd/05', dependeDe: ['T005', 'T007'],
+        incluye: ['5 pistas escondidas en zonas distintas', 'Cada pista se apunta en el diario'],
+        hechoCuando: 'Al recoger las 5 pistas, el diario marca la misión como lista para entregar.',
+        commits: [{ hash: '4c8d1e0', fecha: '2026-10-12T19:50', mensaje: 'T008 primeras 3 pistas (sin terminar)' }],
+        inicio: '2026-10-12T18:20', lineas: { contenido: 280, servidor: 90 } },
+      { id: 'T009', titulo: 'Enemigo guardián', version: 'v0.3', estado: 'en_curso', capitulo: 'docs/gdd/06', dependeDe: ['T002'],
+        incluye: ['Un enemigo que vigila la última pista', 'Persigue al jugador y vuelve a su puesto'],
+        hechoCuando: 'El guardián persigue al jugador y se puede esquivar.',
+        inicio: '2026-10-12T19:05' },
+      { id: 'T010', titulo: 'Recompensa final', version: 'v0.3', estado: 'pendiente', capitulo: 'docs/gdd/05', dependeDe: ['T008'],
+        incluye: ['Cofre al completar la misión', 'Objeto exclusivo para el avatar'],
+        hechoCuando: 'Al entregar la misión se recibe el objeto y queda guardado.' },
+      { id: 'T011', titulo: 'Pantalla de misión completada', version: 'v0.3', estado: 'pendiente', capitulo: 'docs/gdd/08', dependeDe: ['T010'],
+        incluye: ['Resumen de la misión y tiempo empleado'], hechoCuando: 'Aparece al entregar la misión y se puede cerrar.' },
+      { id: 'T012', titulo: 'Sonidos de la misión', version: 'v0.3', estado: 'pendiente', capitulo: 'docs/gdd/10', dependeDe: ['T007'],
+        incluye: ['Sonido al recoger pista', 'Música de persecución (placeholder)'], hechoCuando: 'Cada acción de la misión tiene su sonido.' },
+      { id: 'T013', titulo: 'Monedas', version: 'v0.4', estado: 'pendiente', capitulo: 'docs/gdd/11', dependeDe: ['T003'],
+        incluye: ['Ganar monedas al completar misiones', 'Contador en pantalla'], hechoCuando: 'Las monedas se suman, se ven y se guardan.' },
+      { id: 'T014', titulo: 'Tienda de objetos', version: 'v0.4', estado: 'pendiente', capitulo: 'docs/gdd/11', dependeDe: ['T013'],
+        incluye: ['Catálogo de 6 objetos', 'Comprar con monedas'], hechoCuando: 'Se compra un objeto y aparece en el inventario.' },
+      { id: 'T015', titulo: 'Probador del avatar', version: 'v0.4', estado: 'pendiente', capitulo: 'docs/gdd/12', dependeDe: ['T014'],
+        incluye: ['Ver los objetos puestos antes de comprarlos'], hechoCuando: 'Se puede probar cualquier objeto de la tienda.' }
+    ]
+  };
+
+  /* ===================== Utilidades ===================== */
+  var $ = function (s) { return document.querySelector(s); };
+  var esc = function (v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+  var arr = function (v) { return v == null || v === '' ? [] : Array.isArray(v) ? v : [v]; };
+  var plain = function (s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); };
+  var num = new Intl.NumberFormat('es-ES');
+  var LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+  var CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+  var ESTADO_TXT = { hecha: 'Hecha', en_curso: 'En curso', pendiente: 'Pendiente', bloqueada: 'Bloqueada' };
+  var VERSION_TXT = { publicada: 'Publicada', siguiente: 'Siguiente', planificada: 'Planificada' };
+  var COLORES = ['var(--cyan)', 'var(--mag)', 'var(--amber)', 'var(--violet)', 'var(--green)'];
+
+  function normEstado(e) {
+    var s = plain(e).replace(/[\s-]+/g, '_');
+    if (s.indexOf('hech') === 0 || s === 'done') return 'hecha';
+    if (s.indexOf('curso') >= 0 || s === 'doing') return 'en_curso';
+    return 'pendiente';
+  }
+  function normVersion(e) {
+    var s = plain(e);
+    if (s.indexOf('public') === 0) return 'publicada';
+    if (s.indexOf('sig') === 0 || s.indexOf('prox') === 0) return 'siguiente';
+    return 'planificada';
+  }
+  function parseFecha(s) {
+    if (!s) return null;
+    var t = String(s).trim(), m = t.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    var d = m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(t.replace(' ', 'T'));
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function fmtFecha(s) {
+    var d = parseFecha(s); if (!d) return '';
+    var soloDia = /^\d{4}-\d{2}-\d{2}$/.test(String(s).trim());
+    var o = { day: 'numeric', month: 'short', year: 'numeric' };
+    if (!soloDia) { o.hour = '2-digit'; o.minute = '2-digit'; }
+    return new Intl.DateTimeFormat('es-ES', o).format(d);
+  }
+  function fmtCorta(s) {
+    var d = parseFecha(s); if (!d) return esc(s || '');
+    return new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short' }).format(d);
+  }
+  function hace(d) {
+    var diff = (d.getTime() - Date.now()) / 1000, a = Math.abs(diff);
+    var rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto' });
+    if (a < 60) return 'ahora mismo';
+    if (a < 3600) return rtf.format(Math.round(diff / 60), 'minute');
+    if (a < 86400) return rtf.format(Math.round(diff / 3600), 'hour');
+    if (a < 86400 * 30) return rtf.format(Math.round(diff / 86400), 'day');
+    if (a < 86400 * 365) return rtf.format(Math.round(diff / 2592000), 'month');
+    return rtf.format(Math.round(diff / 31536000), 'year');
+  }
+  function dur(min) {
+    min = Math.round(min); if (!(min >= 0)) return '';
+    if (min < 60) return min + ' min';
+    if (min < 1440) { var h = Math.floor(min / 60), m = min % 60; return m ? h + ' h ' + m + ' min' : h + ' h'; }
+    var d = Math.floor(min / 1440), hh = Math.round((min % 1440) / 60);
+    return hh ? d + ' d ' + hh + ' h' : d + ' d';
+  }
+
+  /* ===================== Preparar datos ===================== */
+  var D = null, byId = new Map(), filtro = 'todas', consulta = '', abiertas = new Map(), demo = false;
+
+  function preparar(raw) {
+    var proyecto = raw.proyecto || {};
+    var versiones = arr(raw.versiones).map(function (v) {
+      var o = Object.assign({}, v); o.id = String(v.id == null ? '' : v.id); o.estado = normVersion(v.estado); return o;
+    });
+    var tareas = arr(raw.tareas).map(function (t, i) {
+      var o = Object.assign({}, t);
+      o.id = String(t.id == null ? 'T?' + (i + 1) : t.id);
+      o.version = t.version == null ? '' : String(t.version);
+      o.estado = normEstado(t.estado);
+      o.dependeDe = arr(t.dependeDe).map(String);
+      o.commits = arr(t.commits); o.capturas = arr(t.capturas); o._i = i;
+      return o;
+    });
+    byId = new Map(tareas.map(function (t) { return [t.id, t]; }));
+    tareas.forEach(function (t) {
+      t.bloqueadaPor = t.estado === 'pendiente'
+        ? t.dependeDe.filter(function (d) { var x = byId.get(d); return !x || x.estado !== 'hecha'; }) : [];
+      t.vista = t.bloqueadaPor.length ? 'bloqueada' : t.estado;
+    });
+    var orden = new Map(versiones.map(function (v, i) { return [v.id, i]; }));
+    var huerfanas = tareas.filter(function (t) { return !orden.has(t.version); });
+    if (huerfanas.length) versiones.push({ id: '—', nombre: 'Sin versión asignada', estado: 'planificada', huerfana: true });
+    versiones.forEach(function (v) {
+      v.tareas = v.huerfana ? huerfanas : tareas.filter(function (t) { return t.version === v.id; });
+      v.hechas = v.tareas.filter(function (t) { return t.estado === 'hecha'; }).length;
+      v.pct = v.tareas.length ? Math.round(v.hechas * 100 / v.tareas.length) : 0;
+    });
+    var pos = function (t) { return (orden.has(t.version) ? orden.get(t.version) : 9999) * 100000 + t._i; };
+    var ordenadas = tareas.slice().sort(function (a, b) { return pos(a) - pos(b); });
+    var disc = [];
+    var pd = proyecto.disciplinas;
+    if (Array.isArray(pd)) pd.forEach(function (x) { if (x && x.id) disc.push([String(x.id), x.nombre || x.id]); });
+    else if (pd && typeof pd === 'object') Object.keys(pd).forEach(function (k) { disc.push([k, pd[k]]); });
+    return { proyecto: proyecto, versiones: versiones, tareas: tareas, ordenadas: ordenadas, disciplinas: disc };
+  }
+
+  /* ===================== Pintar ===================== */
+  function chip(t) {
+    var v = t.vista, txt = ESTADO_TXT[v];
+    if (v === 'bloqueada') {
+      var b = t.bloqueadaPor;
+      txt = 'Bloqueada por ' + b.slice(0, 2).join(', ') + (b.length > 2 ? ' y ' + (b.length - 2) + ' más' : '');
+    }
+    return '<span class="chip s-' + v + '">' + (v === 'bloqueada' ? LOCK : '') + esc(txt) + '</span>';
+  }
+  function setMeter(el, pct) { el.querySelector('span').style.setProperty('--p', pct + '%'); el.setAttribute('aria-valuenow', pct); }
+
+  function pintarCabecera() {
+    var p = D.proyecto, total = D.tareas.length;
+    var hechas = D.tareas.filter(function (t) { return t.estado === 'hecha'; }).length;
+    var pct = total ? Math.round(hechas * 100 / total) : 0;
+    var nombre = p.nombre || 'Roadmap';
+    $('#p-nombre').textContent = nombre;
+    document.title = 'Roadmap de ' + nombre;
+    var desc = $('#p-desc'); desc.hidden = !p.descripcion; desc.textContent = p.descripcion || '';
+    var f = parseFecha(p.ultimaActualizacion), upd = $('#p-upd');
+    upd.hidden = !f;
+    if (f) { $('#p-fecha').textContent = fmtFecha(p.ultimaActualizacion); $('#p-fecha').setAttribute('datetime', String(p.ultimaActualizacion)); $('#p-hace').textContent = '(' + hace(f) + ')'; }
+    $('#g-pct').textContent = pct;
+    $('#g-sub').innerHTML = '<b>' + hechas + '</b> de <b>' + total + '</b> tareas hechas';
+    var m = $('#g-meter');
+    m.setAttribute('aria-valuetext', pct + ' %, ' + hechas + ' de ' + total + ' tareas hechas');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { setMeter(m, pct); }); });
+  }
+
+  function siguienteTarea() {
+    var p = D.proyecto.siguiente && byId.get(String(D.proyecto.siguiente));
+    if (p && p.estado === 'pendiente') return p;
+    for (var i = 0; i < D.ordenadas.length; i++) if (D.ordenadas[i].vista === 'pendiente') return D.ordenadas[i];
+    return null;
+  }
+
+  function pintarAhora() {
+    var cur = D.ordenadas.filter(function (t) { return t.estado === 'en_curso'; });
+    var h = '';
+    if (cur.length) {
+      h += cur.map(function (t) {
+        var meta = [t.version];
+        var ini = parseFecha(t.inicio); if (ini) meta.push('empezada ' + hace(ini));
+        return '<button type="button" class="tbtn now-item" data-id="' + esc(t.id) + '"><span class="dot" aria-hidden="true"></span>' +
+          '<span class="now-title"><span class="tid">' + esc(t.id) + '</span>' + esc(t.titulo || 'Sin título') + '</span>' +
+          '<span class="now-meta">' + esc(meta.filter(Boolean).join(', ')) + '</span></button>';
+      }).join('');
+    } else {
+      h += '<p class="quiet">No hay ninguna tarea en curso ahora mismo.</p>';
+    }
+    var s = siguienteTarea();
+    if (s) h += '<p class="after">Después: <button type="button" class="tbtn" data-id="' + esc(s.id) + '"><span class="tid">' + esc(s.id) + '</span>' + esc(s.titulo || 'Sin título') + '</button></p>';
+    else if (D.tareas.some(function (t) { return t.vista === 'bloqueada'; })) h += '<p class="after">Después: ninguna tarea está lista para empezar; las pendientes esperan a otras.</p>';
+    $('#now').innerHTML = h;
+  }
+
+  function pintarProxima() {
+    var vs = D.versiones.filter(function (v) { return !v.huerfana; });
+    var v = vs.filter(function (x) { return x.estado === 'siguiente'; })[0] || vs.filter(function (x) { return x.estado !== 'publicada'; })[0];
+    if (!v) { $('#next').innerHTML = '<p class="quiet">No hay ninguna versión pendiente de publicar.</p>'; return; }
+    var faltan = v.tareas.filter(function (t) { return t.estado !== 'hecha'; });
+    var orden = { en_curso: 0, pendiente: 1, bloqueada: 2 };
+    faltan.sort(function (a, b) { return orden[a.vista] - orden[b.vista] || a._i - b._i; });
+    var MAX = 5, h = '';
+    h += '<div class="nv-head"><span class="nv-id">' + esc(v.id) + '</span><span class="nv-name">' + esc(v.nombre || '') + '</span></div>';
+    if (v.objetivo) h += '<p class="nv-goal">' + esc(v.objetivo) + '</p>';
+    h += '<div class="nv-prog"><span class="nv-pct">' + v.pct + '%</span><span class="meter" role="progressbar" aria-label="Progreso de ' + esc(v.id) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + v.pct + '"><span style="--p:' + v.pct + '%"></span></span><span class="nv-count">' + v.hechas + ' de ' + v.tareas.length + ' hechas</span></div>';
+    if (faltan.length) {
+      h += '<p class="nv-left">' + (faltan.length === 1 ? 'Falta 1 tarea:' : 'Faltan ' + faltan.length + ' tareas:') + '</p><ul class="mini">';
+      h += faltan.slice(0, MAX).map(function (t) {
+        return '<li><button type="button" class="tbtn" data-id="' + esc(t.id) + '"><span class="tid">' + esc(t.id) + '</span><span class="ttl">' + esc(t.titulo || 'Sin título') + '</span>' + chip(t) + '</button></li>';
+      }).join('') + '</ul>';
+      if (faltan.length > MAX) h += '<p class="more"><button type="button" class="linkbtn" data-goto="' + esc(v.id) + '">Ver las ' + faltan.length + ' tareas de ' + esc(v.id) + '</button></p>';
+    } else if (v.tareas.length) {
+      h += '<p class="nv-left">Todas las tareas están hechas: lista para publicar.</p>';
+    } else {
+      h += '<p class="nv-left">Esta versión aún no tiene tareas.</p>';
+    }
+    $('#next').innerHTML = h;
+  }
+
+  function coincide(t) {
+    if (filtro === 'hechas' && t.estado !== 'hecha') return false;
+    if (filtro === 'en_curso' && t.estado !== 'en_curso') return false;
+    if (filtro === 'pendientes' && t.estado !== 'pendiente') return false;
+    if (!consulta) return true;
+    var texto = plain([t.id, t.titulo, t.capitulo, arr(t.incluye).join(' '), t.version].join(' '));
+    return consulta.split(/\s+/).every(function (w) { return texto.indexOf(w) >= 0; });
+  }
+
+  function pintarFiltros() {
+    var c = { todas: D.tareas.length, hechas: 0, en_curso: 0, pendientes: 0 };
+    D.tareas.forEach(function (t) { if (t.estado === 'hecha') c.hechas++; else if (t.estado === 'en_curso') c.en_curso++; else c.pendientes++; });
+    var ops = [['todas', 'Todas'], ['hechas', 'Hechas'], ['en_curso', 'En curso'], ['pendientes', 'Pendientes']];
+    $('#filters').innerHTML = ops.map(function (o) {
+      return '<button type="button" data-filtro="' + o[0] + '" aria-pressed="' + (filtro === o[0]) + '">' + o[1] + '<span class="n">' + c[o[0]] + '</span></button>';
+    }).join('');
+  }
+
+  function slug(id) { return 'ver-' + String(id).replace(/[^a-z0-9]+/gi, '-'); }
+
+  function pintarVersiones() {
+    var activo = filtro !== 'todas' || !!consulta, total = 0;
+    var h = D.versiones.map(function (v) {
+      var ts = v.tareas.filter(coincide);
+      if (activo && !ts.length) return '';
+      total += ts.length;
+      var abierta = activo ? true : (abiertas.has(v.id) ? abiertas.get(v.id) : (v.estado === 'siguiente' || v.tareas.some(function (t) { return t.estado === 'en_curso'; })));
+      var filas = ts.map(function (t) {
+        return '<li><button type="button" class="trow is-' + t.vista + '" data-id="' + esc(t.id) + '"><span class="tid">' + esc(t.id) + '</span><span class="ttl">' + esc(t.titulo || 'Sin título') + '</span>' + chip(t) + '</button></li>';
+      }).join('');
+      return '<li class="vitem v-' + v.estado + '" id="' + slug(v.id) + '"><span class="vnode" aria-hidden="true"></span>' +
+        '<details data-vid="' + esc(v.id) + '"' + (abierta ? ' open' : '') + '><summary>' +
+        '<span class="vid">' + esc(v.id) + '</span>' +
+        '<span class="vname">' + esc(v.nombre || '') + (v.objetivo ? '<span class="vgoal">' + esc(v.objetivo) + '</span>' : '') + '</span>' +
+        '<span class="vside">' + (v.huerfana ? '' : '<span class="vstate">' + VERSION_TXT[v.estado] + '</span>') +
+        '<span class="vprog"><span class="vpct">' + v.pct + '%</span><span class="meter sm" aria-hidden="true"><span style="--p:' + v.pct + '%"></span></span><span class="vcount">' + v.hechas + '/' + v.tareas.length + '</span></span>' + CHEV + '</span>' +
+        '</summary><ul class="tlist">' + (filas || '<li class="empty">Esta versión aún no tiene tareas.</li>') + '</ul></details></li>';
+    }).join('');
+    $('#vlist').innerHTML = h || '<li class="noresult">Ninguna tarea coincide' + (consulta ? ' con «' + esc($('#q').value.trim()) + '»' : ' con este filtro') + '.</li>';
+    $('#count').textContent = activo ? total + (total === 1 ? ' tarea encontrada' : ' tareas encontradas') : '';
+  }
+
+  function pintarVacio(tipo) {
+    $('#top').hidden = true;
+    var h;
+    if (tipo === 'error') {
+      h = '<div class="blank"><h2>No se pueden leer los datos</h2><p>La web necesita el archivo <code>roadmap-data.js</code> en la misma carpeta que este <code>index.html</code>. ' +
+        (window.__roadmapMissing ? 'Ahora mismo no lo encuentra.' : 'Lo encuentra, pero tiene un error de escritura' + (window.__roadmapError ? ': ' + esc(window.__roadmapError) : '') + '. Revisa el último cambio del archivo.') +
+        '</p><button type="button" class="btn" id="demo-on">Ver con datos de ejemplo</button></div>';
+    } else {
+      h = '<div class="blank"><h2>Todavía no hay tareas</h2><p>Cuando se carguen las versiones y tareas de tu ROADMAP.md en <code>roadmap-data.js</code>, aquí verás qué se está haciendo y qué trae la próxima actualización.</p><button type="button" class="btn" id="demo-on">Ver con datos de ejemplo</button></div>';
+    }
+    $('#lista').innerHTML = h;
+  }
+
+  /* ===================== Ficha ===================== */
+  var ultimoFoco = null;
+  function seccion(titulo, cuerpo, cls) { return '<section class="f-sec' + (cls ? ' ' + cls : '') + '"><h3>' + titulo + '</h3>' + cuerpo + '</section>'; }
+  function vacio(txt) { return '<p class="f-empty">' + txt + '</p>'; }
+  function textoOLista(val, siVacio) {
+    var a = arr(val).map(function (x) { return typeof x === 'object' && x ? (x.nombre ? x.nombre + ': ' : '') + (x.resultado || x.texto || '') : x; })
+      .filter(function (x) { return String(x).trim(); });
+    if (!a.length) return vacio(siVacio);
+    return a.length === 1 ? '<p>' + esc(a[0]) + '</p>' : '<ul>' + a.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+  }
+
+  function fichaHTML(t) {
+    var v = D.versiones.filter(function (x) { return x.id === t.version && !x.huerfana; })[0];
+    var h = '<header class="f-head"><p class="f-id">' + esc(t.id) + '</p><h2 id="f-title">' + esc(t.titulo || 'Sin título') + '</h2><div class="f-tags">' + chip(t) +
+      '<span class="tag">' + (v ? esc(v.id + (v.nombre ? ': ' + v.nombre : '')) : 'Sin versión asignada') + '</span>' +
+      (t.capitulo ? '<span class="tag mono">' + esc(t.capitulo) + '</span>' : '') + '</div></header><div class="f-body"><div class="f-main">';
+
+    h += seccion('Qué incluye', textoOLista(t.incluye, 'Sin detallar.'));
+    h += seccion('Hecho cuando', textoOLista(t.hechoCuando, 'Falta el criterio de cierre.'));
+    h += seccion('Verificación', textoOLista(t.verificacion, t.estado === 'hecha' ? 'No se apuntó cómo se comprobó.' : 'Se rellena al terminar la tarea.'));
+    h += '</div><div class="f-side">';
+
+    // Dependencias
+    var deps;
+    if (!t.dependeDe.length) deps = '<p>No depende de ninguna tarea.</p>';
+    else {
+      deps = '<div class="deps">' + t.dependeDe.map(function (id) {
+        var d = byId.get(id);
+        if (!d) return '<span class="dep missing"><span class="tid">' + esc(id) + '</span><span>No existe en el roadmap</span></span>';
+        return '<button type="button" class="dep" data-id="' + esc(d.id) + '"><span class="tid">' + esc(d.id) + '</span><span>' + esc(d.titulo || '') + '</span>' + chip(d) + '</button>';
+      }).join('') + '</div>';
+      if (t.bloqueadaPor.length) deps += '<p class="f-block">Bloqueada: no puede empezar hasta que ' + (t.bloqueadaPor.length === 1 ? 'esté hecha ' : 'estén hechas ') + esc(t.bloqueadaPor.join(', ')) + '.</p>';
+    }
+    h += seccion('Depende de', deps);
+
+    // Fechas
+    var ini = parseFecha(t.inicio), d = '';
+    var duracion = (t.minutos != null && t.minutos !== '') ? dur(+t.minutos) : (ini && parseFecha(t.fin) ? dur((parseFecha(t.fin) - ini) / 60000) : '');
+    if (t.estado === 'en_curso' && ini && !t.fin) duracion = 'lleva ' + dur((Date.now() - ini) / 60000);
+    d += '<dt>Inicio</dt><dd>' + (ini ? esc(fmtFecha(t.inicio)) : (t.estado === 'pendiente' ? 'Sin empezar' : '—')) + '</dd>';
+    d += '<dt>Fin</dt><dd>' + (t.fin ? esc(fmtFecha(t.fin)) : (t.estado === 'en_curso' ? 'En curso' : '—')) + '</dd>';
+    d += '<dt>Duración</dt><dd>' + (duracion ? esc(duracion) : '—') + '</dd>';
+    h += seccion('Fechas', '<dl class="dates">' + d + '</dl>');
+
+    // Líneas por disciplina
+    var L = t.lineas && typeof t.lineas === 'object' ? t.lineas : {};
+    var claves = D.disciplinas.map(function (x) { return x[0]; }).filter(function (k) { return k in L; });
+    Object.keys(L).forEach(function (k) { if (claves.indexOf(k) < 0) claves.push(k); });
+    var valor = function (x) { return typeof x === 'object' && x ? (+x.añadidas || +x.anadidas || 0) + (+x.borradas || 0) : +x || 0; };
+    var filas = claves.map(function (k) { return [k, valor(L[k])]; }).filter(function (x) { return x[1] > 0; });
+    if (filas.length) {
+      var max = Math.max.apply(null, filas.map(function (x) { return x[1]; }));
+      var tot = filas.reduce(function (s, x) { return s + x[1]; }, 0);
+      var nombres = new Map(D.disciplinas);
+      var lh = '<div class="lines">' + filas.map(function (x, i) {
+        var nm = nombres.get(x[0]) || (x[0].charAt(0).toUpperCase() + x[0].slice(1));
+        return '<div class="lrow"><span>' + esc(nm) + '</span><span class="lbar" aria-hidden="true"><span style="width:' + Math.max(2, Math.round(x[1] * 100 / max)) + '%;background:' + COLORES[i % COLORES.length] + '"></span></span><span class="lnum">' + num.format(x[1]) + '</span></div>';
+      }).join('') + '</div><p class="ltotal">' + num.format(tot) + ' líneas en total</p>';
+      h += seccion('Líneas cambiadas', lh);
+    } else {
+      h += seccion('Líneas cambiadas', vacio('Todavía no hay cambios registrados.'));
+    }
+    h += '</div>';
+
+    // Capturas
+    var caps = t.capturas.map(function (c, i) {
+      var src = typeof c === 'object' && c ? c.src : c, pie = typeof c === 'object' && c ? c.texto : '';
+      if (!src) return '';
+      return '<a class="shot" href="' + esc(src) + '" target="_blank" rel="noopener" data-src="' + esc(src) + '"><img src="' + esc(src) + '" alt="Captura ' + (i + 1) + ' de ' + esc(t.id) + (pie ? ': ' + esc(pie) : '') + '" loading="lazy">' + (pie ? '<span>' + esc(pie) + '</span>' : '') + '</a>';
+    }).join('');
+    h += seccion('Capturas', caps ? '<div class="shots">' + caps + '</div>' : vacio(t.estado === 'hecha' ? 'Esta tarea no tiene capturas.' : 'Se añaden al comprobar la tarea.'), 'f-full');
+
+    // Commits
+    var repo = String(D.proyecto.repositorio || '').replace(/\/+$/, '');
+    var cm = t.commits.map(function (c) {
+      c = typeof c === 'object' && c ? c : { hash: c };
+      var hash = esc(String(c.hash || '').slice(0, 7));
+      var cod = repo && c.hash ? '<a href="' + esc(repo + '/commit/' + c.hash) + '" target="_blank" rel="noopener"><code>' + hash + '</code></a>' : '<code>' + hash + '</code>';
+      return '<li>' + cod + '<span class="cdate">' + (c.fecha ? fmtCorta(c.fecha) : '') + '</span><span class="cmsg">' + esc(c.mensaje || '') + '</span></li>';
+    }).join('');
+    h += seccion('Commits', cm ? '<ul class="commits">' + cm + '</ul>' : vacio('Aún no hay commits de esta tarea.'), 'f-full');
+
+    return h + '</div>';
+  }
+
+  function abrirFicha(id) {
+    var t = byId.get(id); if (!t) return;
+    var dlg = $('#ficha');
+    if (!dlg.open) ultimoFoco = document.activeElement;
+    $('#f-content').innerHTML = fichaHTML(t);
+    $('#f-content').querySelectorAll('.shot img').forEach(function (img) {
+      img.addEventListener('error', function () {
+        var a = img.closest('.shot');
+        var div = document.createElement('div');
+        div.className = 'shot missing';
+        div.textContent = 'No se encuentra ' + a.getAttribute('data-src');
+        a.replaceWith(div);
+      });
+    });
+    if (!dlg.open) dlg.showModal();
+    $('#f-content').scrollTop = 0;
+    try { history.replaceState(null, '', '#' + encodeURIComponent(id)); } catch (e) {}
+  }
+
+  /* ===================== Eventos ===================== */
+  function enlazar() {
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-id]');
+      if (b && b.tagName === 'BUTTON') { abrirFicha(b.getAttribute('data-id')); return; }
+      var f = e.target.closest('[data-filtro]');
+      if (f) { filtro = f.getAttribute('data-filtro'); pintarFiltros(); pintarVersiones(); return; }
+      var g = e.target.closest('[data-goto]');
+      if (g) {
+        var vid = g.getAttribute('data-goto'); abiertas.set(vid, true);
+        filtro = 'todas'; consulta = ''; $('#q').value = ''; pintarFiltros(); pintarVersiones();
+        var li = document.getElementById(slug(vid));
+        if (li) { li.scrollIntoView({ behavior: 'smooth', block: 'start' }); li.querySelector('summary').focus({ preventScroll: true }); }
+        return;
+      }
+      if (e.target.id === 'demo-on') activarDemo(true);
+      if (e.target.id === 'demo-exit') activarDemo(false);
+    });
+    document.addEventListener('toggle', function (e) {
+      var d = e.target;
+      if (d.tagName === 'DETAILS' && d.dataset.vid && filtro === 'todas' && !consulta) abiertas.set(d.dataset.vid, d.open);
+    }, true);
+    document.addEventListener('input', function (e) { if (e.target.id === 'q') { consulta = plain(e.target.value.trim()); pintarVersiones(); } });
+    document.addEventListener('keydown', function (e) {
+      var tag = (e.target.tagName || '').toLowerCase();
+      if (e.key === '/' && tag !== 'input' && tag !== 'textarea' && !$('#ficha').open) { e.preventDefault(); $('#q').focus(); }
+    });
+    var dlg = $('#ficha');
+    $('#f-close').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', function () {
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+      if (ultimoFoco && document.contains(ultimoFoco)) ultimoFoco.focus();
+    });
+    window.addEventListener('hashchange', abrirDesdeHash);
+  }
+  function abrirDesdeHash() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    if (id && byId.has(id)) abrirFicha(id);
+  }
+
+  /* ===================== Arranque ===================== */
+  var original = null;
+  function pintarTodo() { pintarCabecera(); pintarAhora(); pintarProxima(); pintarFiltros(); pintarVersiones(); }
+
+  function activarDemo(on) {
+    demo = on;
+    $('#demo-banner').hidden = !on;
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    if (on) { restaurarLista(); D = preparar(DEMO); pintarTodo(); $('#demo-exit').focus(); }
+    else { iniciar(); }
+  }
+  var plantillaLista = null;
+  function restaurarLista() { $('#top').hidden = false; if (plantillaLista) $('#lista').innerHTML = plantillaLista; filtro = 'todas'; consulta = ''; abiertas = new Map(); }
+
+  function iniciar() {
+    restaurarLista();
+    original = window.ROADMAP;
+    if (!original || typeof original !== 'object') {
+      D = preparar({ proyecto: {}, versiones: [], tareas: [] }); pintarCabecera(); pintarVacio('error'); return;
+    }
+    D = preparar(original);
+    if (!D.tareas.length) { pintarCabecera(); pintarVacio('vacio'); return; }
+    pintarTodo();
+    abrirDesdeHash();
+  }
+
+  plantillaLista = $('#lista').innerHTML;
+  enlazar();
+  iniciar();
+})();
+</script>
+</body>
+</html>
