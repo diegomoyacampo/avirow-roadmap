@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:03",
+    "ultimaActualizacion": "2026-10-13T01:05",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -161,7 +161,7 @@ window.ROADMAP = {
       "id": "T001",
       "titulo": "Base del proyecto",
       "version": "v0.1",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/12",
       "incluye": [
         "Carpetas apps/cliente, apps/servidor y paquetes/compartido, todo en TypeScript.",
@@ -173,7 +173,7 @@ window.ROADMAP = {
       "verificacion": [],
       "dependeDe": [],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:05",
       "fin": "",
       "lineas": {},
       "capturas": []
