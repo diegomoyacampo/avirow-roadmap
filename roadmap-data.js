@@ -64,7 +64,7 @@ window.ROADMAP = {
   "proyecto": {
     "nombre": "Avirow",
     "descripcion": "Universo virtual online en el navegador, en ordenador y en móvil.",
-    "ultimaActualizacion": "2026-10-13T01:25",
+    "ultimaActualizacion": "2026-10-13T01:26",
     "repositorio": "https://github.com/diegomoyacampo/avirow",
     "siguiente": "",
     "disciplinas": {
@@ -365,7 +365,7 @@ window.ROADMAP = {
       "id": "T005",
       "titulo": "Controles en móvil",
       "version": "v0.1",
-      "estado": "pendiente",
+      "estado": "en_curso",
       "capitulo": "docs/gdd/02",
       "incluye": [
         "Joystick virtual a la izquierda (al borde, corre).",
@@ -378,7 +378,7 @@ window.ROADMAP = {
         "T004"
       ],
       "commits": [],
-      "inicio": "",
+      "inicio": "2026-10-13T01:26",
       "fin": "",
       "lineas": {},
       "capturas": []
